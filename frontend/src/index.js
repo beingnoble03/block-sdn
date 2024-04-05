@@ -4,7 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+const cors = require("cors");
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+cors()
 root.render(
   <React.StrictMode>
     <App />

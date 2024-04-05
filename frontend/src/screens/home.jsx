@@ -8,6 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import { deviceTypes } from "../constants/device";
+import axios from "axios";
 
 import "./home.css";
 
@@ -15,6 +16,7 @@ const Home = () => {
   const [deviceType, setDeviceType] = useState("");
   const [deviceId, setDeviceId] = useState("");
   const [key, setKey] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleDeviceTypeChange = (event) => {
     setDeviceType(event.target.value);
@@ -22,6 +24,18 @@ const Home = () => {
 
   const handleDeviceIdChange = (event) => {
     setDeviceId(event.target.value);
+  };
+
+  const getMessage = () => {
+    axios({
+      method: "get",
+      url: `http://localhost:8000/controller/`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      setMessage(response.data.message);
+    });
   };
 
   const handleKeyChange = (event) => {
@@ -60,9 +74,10 @@ const Home = () => {
       />
 
       <br />
-      <Button variant="outlined" color="success">
+      <Button variant="outlined" color="success" onClick={getMessage}>
         Verify User
       </Button>
+      {message}
     </div>
   );
 };
