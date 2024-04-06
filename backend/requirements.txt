@@ -3,11 +3,13 @@ certifi==2024.2.2
 charset-normalizer==3.3.2
 debtcollector==3.0.0
 Django==5.0.4
+django-cors-headers==4.3.1
 dnspython==2.6.1
 eventlet==0.36.1
 ez_setup==0.9
 greenlet==3.0.3
 idna==3.6
+mininet==2.3.0.dev6
 msgpack==1.0.8
 netaddr==1.2.1
 oslo.config==9.4.0
