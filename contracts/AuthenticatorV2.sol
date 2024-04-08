@@ -54,3 +54,5 @@ contract AuthenticatorV2 {
         deviceId_to_blockhash[device_id] = blockhash(block.number);
     }
 }
+
+// contract address -> 0x2aa639318feD7233711A1D689Bf0bD52b3C640C2
