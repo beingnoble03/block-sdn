@@ -10,3 +10,8 @@
     margin-right: auto;
     gap: 10px
 }
+
+.message-container {
+    max-width: 100%;
+    overflow: scroll;
+}

@@ -6,6 +6,7 @@ import {
   InputLabel,
   MenuItem,
   TextField,
+  Box,
 } from "@mui/material";
 import { deviceTypes } from "../constants/device";
 import axios from "axios";
@@ -77,7 +78,7 @@ const Home = () => {
       <Button variant="outlined" color="success" onClick={getMessage}>
         Verify User
       </Button>
-      {message}
+      <Box fullWidth className="message-container">{message}</Box>
     </div>
   );
 };
