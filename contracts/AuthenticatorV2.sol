@@ -43,7 +43,7 @@ contract AuthenticatorV2 {
         bytes32 dar = keccak256(abi.encode(device_id, cluster_id, signature));
         return dar;
     }
-
+    
     // send DAR on backend and store it . If the verification is successful call this function.
 
     function add_authentication_for_device(

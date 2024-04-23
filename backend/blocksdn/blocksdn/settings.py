@@ -25,11 +25,7 @@ SECRET_KEY = 'django-insecure-+qkt_lsc))x1d_%*-((jr6n#q%8uic=s5@r(l&2#b7!vx9#e)r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-<<<<<<< HEAD
-ALLOWED_HOSTS = []
-=======
 ALLOWED_HOSTS = ['127.0.0.1','localhost']
->>>>>>> f498f9add8a88ae9bab3f356f9d05cfec0ab88cf
 
 
 # Application definition
@@ -46,10 +42,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-<<<<<<< HEAD
-=======
     'corsheaders.middleware.CorsMiddleware',
->>>>>>> f498f9add8a88ae9bab3f356f9d05cfec0ab88cf
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -57,14 +50,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-<<<<<<< HEAD
-=======
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000"
 ]
 
->>>>>>> f498f9add8a88ae9bab3f356f9d05cfec0ab88cf
 ROOT_URLCONF = 'blocksdn.urls'
 
 TEMPLATES = [
