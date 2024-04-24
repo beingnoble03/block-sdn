@@ -3,7 +3,7 @@ from .constants import *
 
 w3 = Web3(Web3.HTTPProvider(INFURA_URL))
 
-def web3_is_connected():
+def web3_is_connected() -> None:
 	res = w3.is_connected()
 	print(res)
 
