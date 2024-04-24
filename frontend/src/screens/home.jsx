@@ -28,6 +28,8 @@ const Home = () => {
   };
 
   const getMessage = () => {
+    setMessage("Authenticating...")
+
     axios({
       method: "get",
       url: `http://localhost:8000/controller/`,
@@ -35,7 +37,10 @@ const Home = () => {
         "Content-Type": "application/json",
       },
     }).then((response) => {
-      setMessage(response.data.message);
+      setMessage("Here's the message hash: " + response.data.message);
+    }).catch((err) => {
+      console.log(err)
+      setMessage(err.code + ": Error occured while authenticating you")
     });
   };
 
