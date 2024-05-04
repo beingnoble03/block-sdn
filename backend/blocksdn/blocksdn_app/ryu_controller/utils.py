@@ -19,6 +19,8 @@ def private_to_public_key(private_key: str):
 	Gets bytes32 public key from private key
 	"""
 	pk = keys.PrivateKey(Web3.to_bytes(hexstr=private_key))
+	print(pk.public_key, len(str(pk.public_key)))
+	print(str(pk.public_key)[2:66])
 	return Web3.to_bytes(hexstr=str(pk.public_key)[2:])[:32]
 	
 def send_ping_post(app, device_id):

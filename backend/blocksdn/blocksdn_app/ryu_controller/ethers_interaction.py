@@ -6,7 +6,6 @@ from .utils import private_to_public_key
 w3 = Web3(Web3.HTTPProvider(INFURA_URL))
 
 def register_device(data) -> str:
-	# TODO: Ping to host using mininet
 	contract_instance = w3.eth.contract(address=AUTHENTICATOR_CONTRACT_ADDRESS, abi=AUTHENTICATOR_ABI)
 
 	device_id = data.get("deviceId")
@@ -61,6 +60,9 @@ def auth1(data) -> str:
 
 	print(is_authenticated)
 
+	if is_authenticated:
+		inform_device(device_id)
+
 	return str(is_authenticated)
 
 def auth2(data) -> str:
@@ -74,5 +76,8 @@ def auth2(data) -> str:
 	is_authenticated = contract_instance.functions.type2_auth(public_key, device_id).call()
 
 	print(is_authenticated)
+
+	if is_authenticated:
+		inform_device(device_id)
 
 	return str(is_authenticated)
