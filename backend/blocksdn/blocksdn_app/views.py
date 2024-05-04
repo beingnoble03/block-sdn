@@ -1,22 +1,21 @@
 from django.http import JsonResponse
 from .ryu_controller.ethers_interaction import *
+from django.views.decorators.csrf import csrf_exempt
+import json
 
+@csrf_exempt
 def controller_register(request):
-    message_hash = register_device()
+    data = json.loads(request.body.decode('utf-8'))
+    message_hash = register_device(data)
     resp = {
         "message": message_hash
     }
     return JsonResponse(resp)
 
-def controller_auth1(request):
-    message_hash = auth1()
-    resp = {
-        "message": message_hash
-    }
-    return JsonResponse(resp)
-
-def controller_auth2(request):
-    message_hash = auth2()
+@csrf_exempt
+def controller_auth(request):
+    data = json.loads(request.body.decode('utf-8'))
+    message_hash = auth(data)
     resp = {
         "message": message_hash
     }

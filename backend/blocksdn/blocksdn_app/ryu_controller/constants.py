@@ -95,3 +95,10 @@ AUTHENTICATOR_CONTRACT_ADDRESS = "0x364dF4864Cd5EB7Ab96A9173Cf6Edb4DDefc5407"
 
 # TODO @beingnoble03: This private key should be moved to .env
 PRIVATE_KEY = "d6c728ed2f829c8f3c6d475a7c442ac4002a7f9fcf0ae3e265cf64afe230c380"
+
+DEVICE_TYPE_MAP = {
+    "00:00:00:00:00:01": 0,
+    "00:00:00:00:00:02": 1,    
+    "00:00:00:00:00:03": 0,
+    "00:00:00:00:00:04": 1,
+}

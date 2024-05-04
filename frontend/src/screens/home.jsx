@@ -1,82 +1,61 @@
 import React, { useState } from "react";
-import {
-  FormControl,
-  Select,
-  Button,
-  InputLabel,
-  MenuItem,
-  TextField,
-  Box,
-} from "@mui/material";
-import { deviceTypes } from "../constants/device";
+import { Button, TextField, Box } from "@mui/material";
 import axios from "axios";
 
 import "./home.css";
 
 const Home = () => {
-  const [deviceType, setDeviceType] = useState("");
   const [deviceId, setDeviceId] = useState("");
   const [key, setKey] = useState("");
   const [message, setMessage] = useState("");
-
-  const handleDeviceTypeChange = (event) => {
-    setDeviceType(event.target.value);
-  };
 
   const handleDeviceIdChange = (event) => {
     setDeviceId(event.target.value);
   };
 
-  const getMessage = () => {
-    setMessage("Authenticating...");
+  const registerDevice = () => {
+    setMessage("Registering...");
 
     axios({
-      method: "get",
+      method: "post",
       url: `http://localhost:8000/controller/`,
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then((response) => {
-        setMessage("Here's the message hash: " + response.data.message);
-      })
-      .catch((err) => {
-        console.log(err);
-        setMessage(err.code + ": Error occured while authenticating you");
-      });
-  };
-
-  const getAuth1 = () => {
-    setMessage("Authenticating...");
-
-    axios({
-      method: "get",
-      url: `http://localhost:8000/controller/auth1/`,
-      headers: {
-        "Content-Type": "application/json",
+      data: {
+        privKey: key,
+        deviceId: deviceId,
       },
     })
       .then((response) => {
-        setMessage("Here's the message hash: " + response.data.message);
+        setMessage(response.data.message);
       })
       .catch((err) => {
         console.log(err);
-        setMessage(err.code + ": Error occured while authenticating you");
+        setMessage(err.code + ": Error occured while registering");
       });
   };
 
-  const getAuth2 = () => {
+  const authenticateUser = () => {
     setMessage("Authenticating...");
 
     axios({
-      method: "get",
-      url: `http://localhost:8000/controller/auth2/`,
+      method: "post",
+      url: `http://localhost:8000/controller/auth/`,
       headers: {
         "Content-Type": "application/json",
       },
+      data: {
+        privKey: key,
+        deviceId: deviceId,
+      },
     })
       .then((response) => {
-        setMessage("Here's the message hash: " + response.data.message);
+        let message = "Successfully authenticated"
+        if (response.data.message === "False") {
+          message = "Authentication failed"
+        }
+        setMessage(message);
       })
       .catch((err) => {
         console.log(err);
@@ -90,19 +69,6 @@ const Home = () => {
 
   return (
     <div className="container">
-      <FormControl fullWidth>
-        <InputLabel>Device Type</InputLabel>
-        <Select
-          value={deviceType}
-          label="Device Type"
-          onChange={handleDeviceTypeChange}
-        >
-          {deviceTypes.map(({ deviceTypeSlug, deviceTypeName }, _) => {
-            return <MenuItem value={deviceTypeSlug}>{deviceTypeName}</MenuItem>;
-          })}
-        </Select>
-      </FormControl>
-
       <TextField
         label="Device ID"
         variant="outlined"
@@ -112,7 +78,7 @@ const Home = () => {
       />
 
       <TextField
-        label="Key"
+        label="Private Key"
         variant="outlined"
         value={key}
         onChange={handleKeyChange}
@@ -120,17 +86,14 @@ const Home = () => {
       />
 
       <br />
-      <Button variant="outlined" color="success" onClick={getMessage}>
+      <Button variant="outlined" color="success" onClick={registerDevice}>
         Register Device
       </Button>
 
-      <Button variant="outlined" color="success" onClick={getAuth1}>
-        Verify User Auth1
+      <Button variant="outlined" color="success" onClick={authenticateUser}>
+        Authenticate User
       </Button>
 
-      <Button variant="outlined" color="success" onClick={getAuth2}>
-        Verify User Auth2
-      </Button>
       <Box fullWidth className="message-container">
         {message}
       </Box>

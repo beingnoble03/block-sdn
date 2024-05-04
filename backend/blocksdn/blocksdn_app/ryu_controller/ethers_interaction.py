@@ -1,67 +1,68 @@
 from web3 import Web3
+from .device_interaction import get_device_type
 from .constants import *
+from .utils import private_to_public_key
 
 w3 = Web3(Web3.HTTPProvider(INFURA_URL))
 
-def web3_is_connected() -> None:
-	res = w3.is_connected()
-	print(res)
-
-def string_to_bytes32(s):
-    # Convert string to bytes
-    byte_string = s.encode('utf-8')
-
-    # Pad the byte string with zeros to make it 32 bytes long
-    padded_bytes = byte_string.ljust(32, b'\0')
-
-    return padded_bytes
-
-def register_device() -> str:
+def register_device(data) -> str:
+	# TODO: Ping to host using mininet
 	contract_instance = w3.eth.contract(address=AUTHENTICATOR_CONTRACT_ADDRESS, abi=AUTHENTICATOR_ABI)
-	print(w3.eth.account)
 
-	data = "69"
-	print(string_to_bytes32(data))
+	device_id = data.get("deviceId")
+	private_key = data.get("privKey")
+	device_type = get_device_type(device_id)
+	public_key = private_to_public_key(private_key)
 
-	# nonce = w3.eth.getTransactionCount(WALLET_ADDRESS)
 	nonce = w3.eth.get_transaction_count(WALLET_ADDRESS)
-	call_function = contract_instance.functions.add_Authentication_data(0, string_to_bytes32(data), "macbook").build_transaction({"chainId": w3.eth.chain_id, "from": WALLET_ADDRESS, "nonce": nonce})
+	
+	call_function = contract_instance.functions.add_Authentication_data(device_type, public_key, device_id).build_transaction({"chainId": w3.eth.chain_id, "from": WALLET_ADDRESS, "nonce": nonce})
 
 	signed_tx = w3.eth.account.sign_transaction(call_function, private_key=PRIVATE_KEY)
 
 	send_tx = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
 
-	# Wait for transaction receipt
 	tx_receipt = w3.eth.wait_for_transaction_receipt(send_tx)
-	print(tx_receipt) # Optional
-	print("Transacion successful")
+	print(tx_receipt)
 
-	return "Oh Yeah"
+	return "The device has been registered"
 
-def auth1() -> str:
+def auth(data) -> str:
+	"""
+	Simply maps to different authentication methods
+	"""
+	device_id = data.get("deviceId")
+
+	device_type = get_device_type(device_id)
+	if device_type:
+		return auth2(data)
+	
+	return auth1(data)
+
+def auth1(data) -> str:
+	# TODO: Ping to host using mininet
 	contract_instance = w3.eth.contract(address=AUTHENTICATOR_CONTRACT_ADDRESS, abi=AUTHENTICATOR_ABI)
-	print(w3.eth.account)
+	
+	device_id = data.get("deviceId")
+	private_key = data.get("privKey")
+	public_key = private_to_public_key(private_key)
 
-	data = "69"
-	print(string_to_bytes32(data))
+	is_authenticated = contract_instance.functions.type1_auth(public_key, device_id).call()
 
-	is_authenticated = contract_instance.functions.type1_auth(string_to_bytes32(data), "macbook").call()
-
-	print(is_authenticated) # Optional
-	print("Transacion successful")
+	print(is_authenticated)
 
 	return str(is_authenticated)
 
-def auth2() -> str:
+def auth2(data) -> str:
+	# TODO: Ping to host using mininet
 	contract_instance = w3.eth.contract(address=AUTHENTICATOR_CONTRACT_ADDRESS, abi=AUTHENTICATOR_ABI)
-	print(w3.eth.account)
 
-	data = "69"
-	print(string_to_bytes32(data))
+	device_id = data.get("deviceId")
+	private_key = data.get("privKey")
+	public_key = private_to_public_key(private_key)
 
-	is_authenticated = contract_instance.functions.type2_auth(string_to_bytes32(data), "macbook").call()
+	is_authenticated = contract_instance.functions.type2_auth(public_key, device_id).call()
 
-	print(is_authenticated) # Optional
-	print("Transacion successful")
+	print(is_authenticated)
 
 	return str(is_authenticated)
