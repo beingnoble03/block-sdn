@@ -28,7 +28,7 @@ const Home = () => {
   };
 
   const getMessage = () => {
-    setMessage("Authenticating...")
+    setMessage("Authenticating...");
 
     axios({
       method: "get",
@@ -36,12 +36,52 @@ const Home = () => {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((response) => {
-      setMessage("Here's the message hash: " + response.data.message);
-    }).catch((err) => {
-      console.log(err)
-      setMessage(err.code + ": Error occured while authenticating you")
-    });
+    })
+      .then((response) => {
+        setMessage("Here's the message hash: " + response.data.message);
+      })
+      .catch((err) => {
+        console.log(err);
+        setMessage(err.code + ": Error occured while authenticating you");
+      });
+  };
+
+  const getAuth1 = () => {
+    setMessage("Authenticating...");
+
+    axios({
+      method: "get",
+      url: `http://localhost:8000/controller/auth1/`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        setMessage("Here's the message hash: " + response.data.message);
+      })
+      .catch((err) => {
+        console.log(err);
+        setMessage(err.code + ": Error occured while authenticating you");
+      });
+  };
+
+  const getAuth2 = () => {
+    setMessage("Authenticating...");
+
+    axios({
+      method: "get",
+      url: `http://localhost:8000/controller/auth2/`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        setMessage("Here's the message hash: " + response.data.message);
+      })
+      .catch((err) => {
+        console.log(err);
+        setMessage(err.code + ": Error occured while authenticating you");
+      });
   };
 
   const handleKeyChange = (event) => {
@@ -81,9 +121,19 @@ const Home = () => {
 
       <br />
       <Button variant="outlined" color="success" onClick={getMessage}>
-        Verify User
+        Register Device
       </Button>
-      <Box fullWidth className="message-container">{message}</Box>
+
+      <Button variant="outlined" color="success" onClick={getAuth1}>
+        Verify User Auth1
+      </Button>
+
+      <Button variant="outlined" color="success" onClick={getAuth2}>
+        Verify User Auth2
+      </Button>
+      <Box fullWidth className="message-container">
+        {message}
+      </Box>
     </div>
   );
 };

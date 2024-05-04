@@ -8,7 +8,36 @@ WALLET_ADDRESS = "0x92D30FD5636fb653803f2A9f3dA54E1A77af24fb"
 AUTHENTICATOR_ABI = """
 [
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "auth_type",
+				"type": "uint16"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "derived_key",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "string",
+				"name": "device_id",
+				"type": "string"
+			}
+		],
+		"name": "add_Authentication_data",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_nos_operator",
+				"type": "address"
+			}
+		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
@@ -16,142 +45,16 @@ AUTHENTICATOR_ABI = """
 		"inputs": [
 			{
 				"internalType": "bytes32",
-				"name": "_messageHash",
+				"name": "derived_key",
 				"type": "bytes32"
-			}
-		],
-		"name": "getEthSignedMessageHash",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
 			},
 			{
 				"internalType": "string",
-				"name": "_message",
+				"name": "device_id",
 				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_nonce",
-				"type": "uint256"
 			}
 		],
-		"name": "getMessageHash",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "_ethSignedMessageHash",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "bytes",
-				"name": "_signature",
-				"type": "bytes"
-			}
-		],
-		"name": "recoverSigner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes",
-				"name": "sig",
-				"type": "bytes"
-			}
-		],
-		"name": "splitSignature",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "r",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "s",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "uint8",
-				"name": "v",
-				"type": "uint8"
-			}
-		],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_signer",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_message",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_nonce",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes",
-				"name": "signature",
-				"type": "bytes"
-			}
-		],
-		"name": "verify",
+		"name": "type1_auth",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -159,9 +62,36 @@ AUTHENTICATOR_ABI = """
 				"type": "bool"
 			}
 		],
-		"stateMutability": "pure",
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "derived_key",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "string",
+				"name": "device_id",
+				"type": "string"
+			}
+		],
+		"name": "type2_auth",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	}
 ]
 """
-AUTHENTICATOR_CONTRACT_ADDRESS = "0x8dF5498207cA4a64C76862bCd950837f7cEFFC5d"
+AUTHENTICATOR_CONTRACT_ADDRESS = "0x364dF4864Cd5EB7Ab96A9173Cf6Edb4DDefc5407"
+
+# TODO @beingnoble03: This private key should be moved to .env
+PRIVATE_KEY = "d6c728ed2f829c8f3c6d475a7c442ac4002a7f9fcf0ae3e265cf64afe230c380"
