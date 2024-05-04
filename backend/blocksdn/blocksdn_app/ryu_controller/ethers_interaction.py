@@ -1,5 +1,5 @@
 from web3 import Web3
-from .device_interaction import get_device_type
+from .device_interaction import get_device_type, is_device_valid, inform_device
 from .constants import *
 from .utils import private_to_public_key
 
@@ -10,6 +10,10 @@ def register_device(data) -> str:
 	contract_instance = w3.eth.contract(address=AUTHENTICATOR_CONTRACT_ADDRESS, abi=AUTHENTICATOR_ABI)
 
 	device_id = data.get("deviceId")
+
+	if not is_device_valid(device_id):
+		return "Device Id is not valid"
+
 	private_key = data.get("privKey")
 	device_type = get_device_type(device_id)
 	public_key = private_to_public_key(private_key)
@@ -23,7 +27,13 @@ def register_device(data) -> str:
 	send_tx = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
 
 	tx_receipt = w3.eth.wait_for_transaction_receipt(send_tx)
+	
+	if tx_receipt == None:
+		return "The device could not be registered"
+	
 	print(tx_receipt)
+
+	inform_device(device_id)
 
 	return "The device has been registered"
 

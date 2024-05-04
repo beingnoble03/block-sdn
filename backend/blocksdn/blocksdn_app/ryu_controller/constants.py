@@ -102,3 +102,5 @@ DEVICE_TYPE_MAP = {
     "00:00:00:00:00:03": 0,
     "00:00:00:00:00:04": 1,
 }
+
+RYU_CONTROLLER_WSGI_URL = "http://0.0.0.0:8080/simpleswitch/"

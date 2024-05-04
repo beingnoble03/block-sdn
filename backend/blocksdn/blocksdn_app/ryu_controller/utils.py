@@ -21,3 +21,8 @@ def private_to_public_key(private_key: str):
 	pk = keys.PrivateKey(Web3.to_bytes(hexstr=private_key))
 	return Web3.to_bytes(hexstr=str(pk.public_key)[2:])[:32]
 	
+def send_ping_post(app, device_id):
+	"""
+	Post process for ping host
+	"""
+	app.logger.info("packet in %s %s %s", "1", device_id, 1)
